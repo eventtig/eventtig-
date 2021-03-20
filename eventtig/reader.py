@@ -13,15 +13,17 @@ class Reader:
         full_start_dir = os.path.abspath(start_dir)
         for path, subdirs, files in os.walk(start_dir):
             for name in files:
-                if name.endswith('.yaml'):
+                if name.endswith('event.yaml'):
                     full_filename = os.path.abspath(os.path.join(path, name))
                     self.process_file(full_filename,  full_filename[len(full_start_dir)+1:])
 
 
     def process_file(self, filename_absolute, filename_relative_to_data_folder):
 
+        id = filename_relative_to_data_folder[:-len('/event.yaml')]
+
         with open(filename_absolute) as fp:
             data = yaml.safe_load(fp)
         event = Event()
-        event.load_from_yaml_data(data)
+        event.load_from_yaml_data(id, data)
         self.datastore.store(event)

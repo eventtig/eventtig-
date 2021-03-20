@@ -9,16 +9,21 @@ class DataStoreSQLite:
 
         # Create table
         cur = self.connection.cursor()
-        cur.execute('''CREATE TABLE event
-                       (title text, description text)''')
+        cur.execute('''CREATE TABLE event (
+            id TEXT PRIMARY KEY, 
+            title text, 
+            description text
+            )'''
+        )
         self.connection.commit()
 
     def store(self, event):
         cur = self.connection.cursor()
         insert_data = [
+            event.id,
             event.title,
             event.description,
         ]
-        cur.execute("INSERT INTO event (title, description) VALUES (?, ?)", insert_data)
+        cur.execute("INSERT INTO event (id, title, description) VALUES (?, ?, ?)", insert_data)
         self.connection.commit()
 
