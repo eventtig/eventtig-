@@ -13,6 +13,9 @@ class DataStoreSQLite:
             id TEXT PRIMARY KEY, 
             title text, 
             description text,
+            url text,
+            cancelled integer,
+            deleted integer,
             start_year integer,
             start_month integer,
             start_day integer,
@@ -48,6 +51,9 @@ class DataStoreSQLite:
             event.id,
             event.title,
             event.description,
+            event.url,
+            1 if event.cancelled else 0,
+            1 if event.deleted else 0,
             event.start_year,
             event.start_month,
             event.start_day,
@@ -63,10 +69,10 @@ class DataStoreSQLite:
         ]
         cur.execute(
             """INSERT INTO event (
-            id, title, description,
+            id, title, description, url, cancelled, deleted,
             start_year, start_month,start_day,start_hour,start_minute,start_epoch,
             end_year,end_month,end_day,end_hour,end_minute,end_epoch
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             insert_data
         )
         for tag_id in event.tag_ids:

@@ -13,6 +13,9 @@ class Event:
         self.description = data.get('description')
         self.id = id
         self.tag_ids = data.get('tags')
+        self.cancelled = data.get('cancelled', False)
+        self.deleted = data.get('deleted', False)
+        self.url = data.get('url')
         self.start_year, self.start_month, self.start_day, self.start_hour, self.start_minute = self._parse_string_to_datetime(data.get('start'))
         self.end_year, self.end_month, self.end_day, self.end_hour, self.end_minute = self._parse_string_to_datetime(data.get('end'))
 
