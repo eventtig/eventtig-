@@ -13,4 +13,6 @@ class SiteConfig:
         with open(filename) as fp:
             self.config = yaml.safe_load(fp)
 
+    def get_tags_extra_fields(self):
+        return self.config.get('tags', {}).get('extra_fields', {})
 

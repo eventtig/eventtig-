@@ -8,3 +8,4 @@ class Tag:
     def load_from_yaml_data(self, id, data):
         self.title = data.get('title')
         self.id = id
+        self.extra = data.get('extra',{})

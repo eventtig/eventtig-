@@ -36,6 +36,12 @@ class DataStoreSQLite:
             )'''
         )
 
+        for extra_field_name, extra_field_data in site_config.get_tags_extra_fields().items():
+            if extra_field_data.get('type') == 'string':
+                cur.execute('ALTER TABLE tag ADD COLUMN extra_' + extra_field_name + " TEXT")
+            elif extra_field_data.get('type') == 'boolean':
+                cur.execute('ALTER TABLE tag ADD COLUMN extra_' + extra_field_name + " INTEGER")
+
         cur.execute('''CREATE TABLE event_has_tag (
             event_id TEXT, 
             tag_id TEXT,
@@ -87,5 +93,10 @@ class DataStoreSQLite:
             tag.title,
         ]
         cur.execute("INSERT INTO tag (id, title) VALUES (?, ?)", insert_data)
+        for extra_field_name, extra_field_data in self.site_config.get_tags_extra_fields().items():
+            if extra_field_data.get('type') == 'string':
+                cur.execute('UPDATE tag SET extra_' + extra_field_name + " = ? WHERE id = ?", [tag.extra.get(extra_field_name), tag.id])
+            elif extra_field_data.get('type') == 'boolean':
+                cur.execute('UPDATE tag SET extra_' + extra_field_name + " = ? WHERE id = ?", [1 if tag.extra.get(extra_field_name) else 0, tag.id])
         self.connection.commit()
 
