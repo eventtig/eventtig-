@@ -1,5 +1,6 @@
 pyyaml
 pytz
+Jinja2
 
 # DEV
 pytest

@@ -1,4 +1,5 @@
 import sqlite3
+from .event import Event
 
 class DataStoreSQLite:
 
@@ -6,6 +7,7 @@ class DataStoreSQLite:
         self.site_config = site_config
         self.out_filename = out_filename
         self.connection =  sqlite3.connect(out_filename)
+        self.connection.row_factory = sqlite3.Row
 
         # Create table
         cur = self.connection.cursor()
@@ -100,3 +102,13 @@ class DataStoreSQLite:
                 cur.execute('UPDATE tag SET extra_' + extra_field_name + " = ? WHERE id = ?", [1 if tag.extra.get(extra_field_name) else 0, tag.id])
         self.connection.commit()
 
+
+    def get_events(self):
+        cur = self.connection.cursor()
+        cur.execute("SELECT * FROM event ORDER BY start_epoch ASC", [])
+        out = []
+        for data in cur.fetchall():
+            event = Event()
+            event.load_from_database_row(data)
+            out.append(event)
+        return out

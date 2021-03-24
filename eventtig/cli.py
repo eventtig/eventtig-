@@ -11,12 +11,13 @@ def main():
     foo_parser = subparsers.add_parser('build')
     foo_parser.add_argument('source')
     foo_parser.add_argument("--sqlite", help="Location of SQLite file")
+    foo_parser.add_argument("--staticsite", help="Location of Static Site")
 
     args = parser.parse_args()
 
     if args.subparser_name == 'build':
 
-        if not args.sqlite:
+        if not args.sqlite and not args.staticsite:
             print("You must specify one of the build options when running build.")
             exit(-1)
 

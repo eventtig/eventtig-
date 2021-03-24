@@ -1,5 +1,6 @@
 PyYAML==5.4.1
 pytz==2021.1
+Jinja2==2.11.3
 
 # DEV
 pytest==6.2.2
@@ -7,6 +8,7 @@ pytest==6.2.2
 attrs==20.3.0
 importlib-metadata==3.7.3
 iniconfig==1.1.1
+MarkupSafe==1.1.1
 packaging==20.9
 pkg-resources==0.0.0
 pluggy==0.13.1

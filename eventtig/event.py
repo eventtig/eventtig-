@@ -8,6 +8,15 @@ class Event:
     def __init__(self):
         pass
 
+    def load_from_database_row(self, data):
+        self.title = data['title']
+        self.description = data['description']
+        self.id = data['id']
+        self.cancelled = data['cancelled']
+        self.deleted = data['deleted']
+        self.url = data['url']
+        self.data = data
+
     def load_from_yaml_data(self, id, data):
         self.title = data.get('title')
         self.description = data.get('description')
