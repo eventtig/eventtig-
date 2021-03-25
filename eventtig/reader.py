@@ -33,6 +33,8 @@ class Reader:
 
         id = filename_relative_to_data_folder[:-len('/event.yaml')]
 
+        print("Processing Event " + id)
+
         with open(filename_absolute) as fp:
             data = yaml.safe_load(fp)
         event = Event()
@@ -43,6 +45,8 @@ class Reader:
 
         id = filename_relative_to_data_folder[:-len('/tag.yaml')]
 
+        print("Processing Tag " + id)
+        
         with open(filename_absolute) as fp:
             data = yaml.safe_load(fp)
         tag = Tag()
