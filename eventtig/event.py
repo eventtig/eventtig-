@@ -16,6 +16,17 @@ class Event:
         self.deleted = data['deleted']
         self.url = data['url']
         self.data = data
+        self.start_year = data['start_year']
+        self.start_month = data['start_month']
+        self.start_day = data['start_day']
+        self.start_hour = data['start_hour']
+        self.start_minute = data['start_minute']
+        self.end_year = data['end_year']
+        self.end_month = data['end_month']
+        self.end_day = data['end_day']
+        self.end_hour = data['end_hour']
+        self.end_minute = data['end_minute']
+        
 
     def load_from_yaml_data(self, id, data):
         self.title = data.get('title')
@@ -47,6 +58,17 @@ class Event:
             tzinfo=pytz.timezone('Europe/London')
         )
         return start.timestamp()
+
+    def get_start_strftime(self):
+        start = datetime.datetime(
+            self.start_year,
+            self.start_month,
+            self.start_day,
+            self.start_hour,
+            self.start_minute,
+            tzinfo=pytz.timezone('Europe/London')
+        )
+        return start.strftime('%a %d %b %Y %I:%M%p')
 
     def get_end_epoch(self):
         end = datetime.datetime(

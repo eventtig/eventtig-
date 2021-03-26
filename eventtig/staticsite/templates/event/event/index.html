@@ -29,6 +29,14 @@
         <th>Description</th>
         <td>{{ event.description }}</td>
     </tr>
+    <tr>
+        <th>URL</th>
+        <td><a href="{{ event.url }}">{{ event.url }}</a></td>
+    </tr>
+    <tr>
+        <th>Start</th>
+        <td>{{ event.get_start_strftime() }}</td>
+    </tr>
 
 </table>
 
