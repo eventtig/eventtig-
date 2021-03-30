@@ -10,7 +10,7 @@ setuptools.setup(
         "Issues": "https://github.com/eventtig/eventtig-gitengine/issues",
         "Source": "https://github.com/eventtig/eventtig-gitengine",
     },
-    packages=setuptools.find_packages(exclude=["test"]),
+    packages=setuptools.find_packages(exclude=["tests"]),
     package_data={
         "": ["*.html", "*.txt", "*.css", "*.js"],
     },
