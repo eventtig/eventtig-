@@ -15,6 +15,7 @@
 
 {% block body %}
 
+<h2>Tag</h2>
 
 <table class="table">
     <tr>
@@ -25,8 +26,27 @@
         <th>Title</th>
         <td>{{ tag.title }}</td>
     </tr>
-
 </table>
+
+<h3>Events</h3>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Start</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for event in events %}
+        <tr>
+            <td>{{ event.id }}</td>
+            <td>{{ event.title }}</td>
+            <td>{{ event.get_start_strftime() }}</td>
+            <td><a href="/event/{{ event.id }}/"><button type="button" class="btn btn-link">View</button></a></td>
+        </tr>
+    {% endfor %}
+</table>
+
 
 
 

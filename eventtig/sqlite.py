@@ -115,7 +115,21 @@ class DataStoreSQLite:
             out.append(event)
         return out
     
-    
+
+    def get_events_for_tag(self, tag_id):
+        cur = self.connection.cursor()
+        cur.execute(
+            'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event_has_tag.tag_id=? ORDER BY event.start_epoch ASC',
+            [tag_id]
+        )
+        out = []
+        for data in cur.fetchall():
+            event = Event()
+            event.load_from_database_row(data)
+            out.append(event)
+        return out
+
+
     def get_tags(self):
         cur = self.connection.cursor()
         cur.execute("SELECT * FROM tag ORDER BY title ASC", [])
