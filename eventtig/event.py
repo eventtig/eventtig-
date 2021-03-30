@@ -1,46 +1,57 @@
-import re
 import datetime
+import re
+
 import pytz
 
 
 class Event:
-
     def __init__(self):
         pass
 
     def load_from_database_row(self, data):
-        self.title = data['title']
-        self.description = data['description']
-        self.id = data['id']
-        self.cancelled = data['cancelled']
-        self.deleted = data['deleted']
-        self.url = data['url']
+        self.title = data["title"]
+        self.description = data["description"]
+        self.id = data["id"]
+        self.cancelled = data["cancelled"]
+        self.deleted = data["deleted"]
+        self.url = data["url"]
         self.data = data
-        self.start_year = data['start_year']
-        self.start_month = data['start_month']
-        self.start_day = data['start_day']
-        self.start_hour = data['start_hour']
-        self.start_minute = data['start_minute']
-        self.end_year = data['end_year']
-        self.end_month = data['end_month']
-        self.end_day = data['end_day']
-        self.end_hour = data['end_hour']
-        self.end_minute = data['end_minute']
-        
+        self.start_year = data["start_year"]
+        self.start_month = data["start_month"]
+        self.start_day = data["start_day"]
+        self.start_hour = data["start_hour"]
+        self.start_minute = data["start_minute"]
+        self.end_year = data["end_year"]
+        self.end_month = data["end_month"]
+        self.end_day = data["end_day"]
+        self.end_hour = data["end_hour"]
+        self.end_minute = data["end_minute"]
 
     def load_from_yaml_data(self, id, data):
-        self.title = data.get('title')
-        self.description = data.get('description')
+        self.title = data.get("title")
+        self.description = data.get("description")
         self.id = id
-        self.tag_ids = data.get('tags')
-        self.cancelled = data.get('cancelled', False)
-        self.deleted = data.get('deleted', False)
-        self.url = data.get('url')
-        self.start_year, self.start_month, self.start_day, self.start_hour, self.start_minute = self._parse_string_to_datetime(data.get('start'))
-        self.end_year, self.end_month, self.end_day, self.end_hour, self.end_minute = self._parse_string_to_datetime(data.get('end'))
+        self.tag_ids = data.get("tags")
+        self.cancelled = data.get("cancelled", False)
+        self.deleted = data.get("deleted", False)
+        self.url = data.get("url")
+        (
+            self.start_year,
+            self.start_month,
+            self.start_day,
+            self.start_hour,
+            self.start_minute,
+        ) = self._parse_string_to_datetime(data.get("start"))
+        (
+            self.end_year,
+            self.end_month,
+            self.end_day,
+            self.end_hour,
+            self.end_minute,
+        ) = self._parse_string_to_datetime(data.get("end"))
 
     def _parse_string_to_datetime(self, value):
-        m = re.search('([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)', value)
+        m = re.search("([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)", value)
         year = int(m.group(1))
         month = int(m.group(2))
         day = int(m.group(3))
@@ -55,7 +66,7 @@ class Event:
             self.start_day,
             self.start_hour,
             self.start_minute,
-            tzinfo=pytz.timezone('Europe/London')
+            tzinfo=pytz.timezone("Europe/London"),
         )
         return start.timestamp()
 
@@ -66,9 +77,9 @@ class Event:
             self.start_day,
             self.start_hour,
             self.start_minute,
-            tzinfo=pytz.timezone('Europe/London')
+            tzinfo=pytz.timezone("Europe/London"),
         )
-        return start.strftime('%a %d %b %Y %I:%M%p')
+        return start.strftime("%a %d %b %Y %I:%M%p")
 
     def get_end_epoch(self):
         end = datetime.datetime(
@@ -77,6 +88,6 @@ class Event:
             self.end_day,
             self.end_hour,
             self.end_minute,
-            tzinfo=pytz.timezone('Europe/London')
+            tzinfo=pytz.timezone("Europe/London"),
         )
         return end.timestamp()

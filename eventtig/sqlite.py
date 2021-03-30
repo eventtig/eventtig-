@@ -1,19 +1,20 @@
 import sqlite3
+
 from .event import Event
 from .tag import Tag
 
 
 class DataStoreSQLite:
-
     def __init__(self, site_config, out_filename):
         self.site_config = site_config
         self.out_filename = out_filename
-        self.connection =  sqlite3.connect(out_filename)
+        self.connection = sqlite3.connect(out_filename)
         self.connection.row_factory = sqlite3.Row
 
         # Create table
         cur = self.connection.cursor()
-        cur.execute('''CREATE TABLE event (
+        cur.execute(
+            """CREATE TABLE event (
             id TEXT PRIMARY KEY, 
             title text, 
             description text,
@@ -32,25 +33,34 @@ class DataStoreSQLite:
             end_hour integer,
             end_minute integer,
             end_epoch integer
-            )'''
+            )"""
         )
-        cur.execute('''CREATE TABLE tag (
+        cur.execute(
+            """CREATE TABLE tag (
             id TEXT PRIMARY KEY, 
             title text
-            )'''
+            )"""
         )
 
-        for extra_field_name, extra_field_data in site_config.get_tags_extra_fields().items():
-            if extra_field_data.get('type') == 'string':
-                cur.execute('ALTER TABLE tag ADD COLUMN extra_' + extra_field_name + " TEXT")
-            elif extra_field_data.get('type') == 'boolean':
-                cur.execute('ALTER TABLE tag ADD COLUMN extra_' + extra_field_name + " INTEGER")
+        for (
+            extra_field_name,
+            extra_field_data,
+        ) in site_config.get_tags_extra_fields().items():
+            if extra_field_data.get("type") == "string":
+                cur.execute(
+                    "ALTER TABLE tag ADD COLUMN extra_" + extra_field_name + " TEXT"
+                )
+            elif extra_field_data.get("type") == "boolean":
+                cur.execute(
+                    "ALTER TABLE tag ADD COLUMN extra_" + extra_field_name + " INTEGER"
+                )
 
-        cur.execute('''CREATE TABLE event_has_tag (
+        cur.execute(
+            """CREATE TABLE event_has_tag (
             event_id TEXT, 
             tag_id TEXT,
             PRIMARY KEY(event_id, tag_id)
-            )'''
+            )"""
         )
 
         self.connection.commit()
@@ -75,7 +85,7 @@ class DataStoreSQLite:
             event.end_day,
             event.end_hour,
             event.end_minute,
-            event.get_end_epoch()
+            event.get_end_epoch(),
         ]
         cur.execute(
             """INSERT INTO event (
@@ -83,12 +93,14 @@ class DataStoreSQLite:
             start_year, start_month,start_day,start_hour,start_minute,start_epoch,
             end_year,end_month,end_day,end_hour,end_minute,end_epoch
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            insert_data
+            insert_data,
         )
         for tag_id in event.tag_ids:
-            cur.execute("INSERT INTO event_has_tag (event_id, tag_id) VALUES (?, ?)", [ event.id, tag_id ])
+            cur.execute(
+                "INSERT INTO event_has_tag (event_id, tag_id) VALUES (?, ?)",
+                [event.id, tag_id],
+            )
         self.connection.commit()
-
 
     def store_tag(self, tag):
         cur = self.connection.cursor()
@@ -97,13 +109,21 @@ class DataStoreSQLite:
             tag.title,
         ]
         cur.execute("INSERT INTO tag (id, title) VALUES (?, ?)", insert_data)
-        for extra_field_name, extra_field_data in self.site_config.get_tags_extra_fields().items():
-            if extra_field_data.get('type') == 'string':
-                cur.execute('UPDATE tag SET extra_' + extra_field_name + " = ? WHERE id = ?", [tag.extra.get(extra_field_name), tag.id])
-            elif extra_field_data.get('type') == 'boolean':
-                cur.execute('UPDATE tag SET extra_' + extra_field_name + " = ? WHERE id = ?", [1 if tag.extra.get(extra_field_name) else 0, tag.id])
+        for (
+            extra_field_name,
+            extra_field_data,
+        ) in self.site_config.get_tags_extra_fields().items():
+            if extra_field_data.get("type") == "string":
+                cur.execute(
+                    "UPDATE tag SET extra_" + extra_field_name + " = ? WHERE id = ?",
+                    [tag.extra.get(extra_field_name), tag.id],
+                )
+            elif extra_field_data.get("type") == "boolean":
+                cur.execute(
+                    "UPDATE tag SET extra_" + extra_field_name + " = ? WHERE id = ?",
+                    [1 if tag.extra.get(extra_field_name) else 0, tag.id],
+                )
         self.connection.commit()
-
 
     def get_events(self):
         cur = self.connection.cursor()
@@ -114,13 +134,12 @@ class DataStoreSQLite:
             event.load_from_database_row(data)
             out.append(event)
         return out
-    
 
     def get_events_for_tag(self, tag_id):
         cur = self.connection.cursor()
         cur.execute(
-            'SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event_has_tag.tag_id=? ORDER BY event.start_epoch ASC',
-            [tag_id]
+            "SELECT event.* FROM event JOIN event_has_tag ON event_has_tag.event_id = event.id WHERE event_has_tag.tag_id=? ORDER BY event.start_epoch ASC",
+            [tag_id],
         )
         out = []
         for data in cur.fetchall():
@@ -128,7 +147,6 @@ class DataStoreSQLite:
             event.load_from_database_row(data)
             out.append(event)
         return out
-
 
     def get_tags(self):
         cur = self.connection.cursor()
@@ -144,7 +162,7 @@ class DataStoreSQLite:
         cur = self.connection.cursor()
         cur.execute(
             "SELECT * FROM tag JOIN event_has_tag ON event_has_tag.tag_id = tag.id WHERE event_has_tag.event_id=? ORDER BY title ASC",
-            [event_id]
+            [event_id],
         )
         out = []
         for data in cur.fetchall():

@@ -3,5 +3,9 @@ pyyaml
 pytz
 Jinja2
 
+
 # DEV
 pytest
+isort
+black
+flake8

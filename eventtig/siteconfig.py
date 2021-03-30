@@ -1,8 +1,7 @@
-import json
 import yaml
 
-class SiteConfig:
 
+class SiteConfig:
     def __init__(self, source_dir):
         self.config = {}
 
@@ -13,5 +12,4 @@ class SiteConfig:
             self.config = yaml.safe_load(fp)
 
     def get_tags_extra_fields(self):
-        return self.config.get('tags', {}).get('extra_fields', {})
-
+        return self.config.get("tags", {}).get("extra_fields", {})

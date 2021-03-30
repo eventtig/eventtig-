@@ -1,11 +1,13 @@
-from .siteconfig import SiteConfig
-from .reader import Reader
-from .sqlite import DataStoreSQLite
-from .staticsite.builder import StaticSiteBuilder
-import tempfile
 import os
 import shutil
 import sys
+import tempfile
+
+from .reader import Reader
+from .siteconfig import SiteConfig
+from .sqlite import DataStoreSQLite
+from .staticsite.builder import StaticSiteBuilder
+
 
 def build(source_dir, source_config, args):
 
@@ -36,6 +38,7 @@ def build(source_dir, source_config, args):
         sys.exit(-1)
     else:
         sys.exit(0)
+
 
 def check(source_dir, source_config):
 
