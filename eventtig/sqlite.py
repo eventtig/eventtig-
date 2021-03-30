@@ -140,5 +140,18 @@ class DataStoreSQLite:
             out.append(tag)
         return out
 
+    def get_tags_for_event(self, event_id):
+        cur = self.connection.cursor()
+        cur.execute(
+            "SELECT * FROM tag JOIN event_has_tag ON event_has_tag.tag_id = tag.id WHERE event_has_tag.event_id=? ORDER BY title ASC",
+            [event_id]
+        )
+        out = []
+        for data in cur.fetchall():
+            tag = Tag()
+            tag.load_from_database_row(data)
+            out.append(tag)
+        return out
+
     def get_file_name(self):
         return self.out_filename

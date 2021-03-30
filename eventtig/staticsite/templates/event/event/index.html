@@ -15,6 +15,7 @@
 
 {% block body %}
 
+<h2>Event</h2>
 
 <table class="table">
     <tr>
@@ -39,6 +40,25 @@
     </tr>
 
 </table>
+
+<h3>Tags</h3>
+
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for tag in tags %}
+        <tr>
+            <td>{{ tag.id }}</td>
+            <td>{{ tag.title }}</td>
+            <td><a href="/tag/{{ tag.id }}/"><button type="button" class="btn btn-link">View</button></a></td>
+        </tr>
+    {% endfor %}
+</table>
+
 
 
 

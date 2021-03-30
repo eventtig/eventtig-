@@ -34,7 +34,10 @@ class StaticSiteBuilder:
         events = self.datastore.get_events()
         self._write_template('event', 'index.html', 'event/index.html', {'events': events })
         for event in events:
-            self._write_template('event/'+event.id, 'index.html', 'event/event/index.html', {'event': event })
+            self._write_template('event/'+event.id, 'index.html', 'event/event/index.html', {
+                'event': event ,
+                'tags': self.datastore.get_tags_for_event(event.id),
+            })
 
         # Tags
         tags = self.datastore.get_tags()
