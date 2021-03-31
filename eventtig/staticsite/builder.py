@@ -40,6 +40,7 @@ class StaticSiteBuilder:
         self._write_template(
             "event", "index.html", "event/index.html", {"events": events}
         )
+        event_api_json_contents = []
         for event in events:
             self._write_template(
                 "event/" + event.id,
@@ -54,6 +55,9 @@ class StaticSiteBuilder:
                 os.path.join(self.out_directory, "event", event.id, "event.json"), "w"
             ) as fp:
                 json.dump({"event": event.get_api_json_contents()}, fp)
+            event_api_json_contents.append(event.get_api_json_contents())
+        with open(os.path.join(self.out_directory, "event", "events.json"), "w") as fp:
+            json.dump({"events": event_api_json_contents}, fp)
 
         # Tags
         tags = self.datastore.get_tags()
