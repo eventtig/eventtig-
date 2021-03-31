@@ -1,0 +1,2 @@
+class EndIsBeforeStartException(Exception):
+    pass

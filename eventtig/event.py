@@ -3,6 +3,8 @@ import re
 
 import pytz
 
+from .exceptions import EndIsBeforeStartException
+
 
 class Event:
     def __init__(self):
@@ -28,6 +30,7 @@ class Event:
         self.end_minute = data["end_minute"]
 
     def load_from_yaml_data(self, id, data):
+        # Load
         self.title = data.get("title")
         self.description = data.get("description")
         self.id = id
@@ -56,6 +59,25 @@ class Event:
             self.end_day = self.start_day
             self.end_hour = self.start_hour
             self.end_minute = self.start_minute
+        # Check
+        start = datetime.datetime(
+            self.start_year,
+            self.start_month,
+            self.start_day,
+            self.start_hour,
+            self.start_minute,
+            tzinfo=pytz.timezone("Europe/London"),
+        )
+        end = datetime.datetime(
+            self.end_year,
+            self.end_month,
+            self.end_day,
+            self.end_hour,
+            self.end_minute,
+            tzinfo=pytz.timezone("Europe/London"),
+        )
+        if end < start:
+            raise EndIsBeforeStartException("The End can not be before the Start!")
 
     def _parse_string_to_datetime(self, value):
         m = re.search("([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)", value)
