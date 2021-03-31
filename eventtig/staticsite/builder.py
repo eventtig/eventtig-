@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 
@@ -49,6 +50,10 @@ class StaticSiteBuilder:
                     "tags": self.datastore.get_tags_for_event(event.id),
                 },
             )
+            with open(
+                os.path.join(self.out_directory, "event", event.id, "event.json"), "w"
+            ) as fp:
+                json.dump({"event": event.get_api_json_contents()}, fp)
 
         # Tags
         tags = self.datastore.get_tags()

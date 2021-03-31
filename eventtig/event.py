@@ -120,3 +120,11 @@ class Event:
             tzinfo=pytz.timezone("Europe/London"),
         )
         return end.timestamp()
+
+    def get_api_json_contents(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "url": self.url,
+        }
