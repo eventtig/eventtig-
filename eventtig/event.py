@@ -42,13 +42,20 @@ class Event:
             self.start_hour,
             self.start_minute,
         ) = self._parse_string_to_datetime(data.get("start"))
-        (
-            self.end_year,
-            self.end_month,
-            self.end_day,
-            self.end_hour,
-            self.end_minute,
-        ) = self._parse_string_to_datetime(data.get("end"))
+        if data.get("end"):
+            (
+                self.end_year,
+                self.end_month,
+                self.end_day,
+                self.end_hour,
+                self.end_minute,
+            ) = self._parse_string_to_datetime(data.get("end"))
+        else:
+            self.end_year = self.start_year
+            self.end_month = self.start_month
+            self.end_day = self.start_day
+            self.end_hour = self.start_hour
+            self.end_minute = self.start_minute
 
     def _parse_string_to_datetime(self, value):
         m = re.search("([0-9]+)-([0-9]+)-([0-9]+) ([0-9]+):([0-9]+)", value)
