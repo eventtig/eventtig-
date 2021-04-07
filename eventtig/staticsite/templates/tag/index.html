@@ -19,12 +19,16 @@
     <tr>
         <th>Id</th>
         <th>Title</th>
+        <th>Events</th>
         <th>&nbsp;</th>
     </tr>
     {% for tag in tags %}
         <tr>
             <td>{{ tag.id }}</td>
             <td>{{ tag.title }}</td>
+            <td>
+                {{ get_events_for_tag_id(tag.id) | length }}
+            </td>
             <td><a href="/tag/{{ tag.id }}/"><button type="button" class="btn btn-link">View</button></a></td>
         </tr>
     {% endfor %}

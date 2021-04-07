@@ -22,6 +22,16 @@ class StaticSiteBuilder:
             autoescape=select_autoescape(["html", "xml"]),
         )
 
+        def _get_tags_for_event_id(event_id):
+            return self.datastore.get_tags_for_event(event_id)
+
+        self._jinja2_env.globals["get_tags_for_event_id"] = _get_tags_for_event_id
+
+        def _get_events_for_tag_id(tag_id):
+            return self.datastore.get_events_for_tag(tag_id)
+
+        self._jinja2_env.globals["get_events_for_tag_id"] = _get_events_for_tag_id
+
         # Vars
         self._template_variables = {
             "site_config": self.site_config,
