@@ -121,8 +121,8 @@ class Event:
         )
         return end.timestamp()
 
-    def get_api_json_contents(self):
-        return {
+    def get_api_json_contents(self, datastore):
+        out = {
             "id": self.id,
             "title": self.title,
             "description": self.description,
@@ -144,4 +144,8 @@ class Event:
                 "hour": self.end_hour,
                 "minute": self.end_minute,
             },
+            "tags": {},
         }
+        for tag in datastore.get_tags_for_event(self.id):
+            out["tags"][tag.id] = {"title": tag.title}
+        return out
