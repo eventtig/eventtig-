@@ -99,7 +99,7 @@ class Event:
         )
         return start.timestamp()
 
-    def get_start_strftime(self):
+    def get_start_strftime(self, format="%a %d %b %Y %I:%M%p"):
         start = datetime.datetime(
             self.start_year,
             self.start_month,
@@ -108,7 +108,7 @@ class Event:
             self.start_minute,
             tzinfo=pytz.timezone("Europe/London"),
         )
-        return start.strftime("%a %d %b %Y %I:%M%p")
+        return start.strftime(format)
 
     def get_end_epoch(self):
         end = datetime.datetime(
@@ -120,6 +120,17 @@ class Event:
             tzinfo=pytz.timezone("Europe/London"),
         )
         return end.timestamp()
+
+    def get_end_strftime(self, format="%a %d %b %Y %I:%M%p"):
+        end = datetime.datetime(
+            self.end_year,
+            self.end_month,
+            self.end_day,
+            self.end_hour,
+            self.end_minute,
+            tzinfo=pytz.timezone("Europe/London"),
+        )
+        return end.strftime(format)
 
     def get_api_json_contents(self, datastore):
         out = {

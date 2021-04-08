@@ -1,3 +1,17 @@
 header {
     background: #ccc;
 }
+
+textarea#raw_data_out {
+    width: 100%;
+    height: 300px;
+}
+
+form.user-form input[type="text"], form.user-form input[type="url"] {
+    width: 100%;
+}
+
+form.user-form textarea {
+    width: 100%;
+    height: 300px;
+}

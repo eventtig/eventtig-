@@ -52,13 +52,25 @@ class StaticSiteBuilder:
         )
         event_api_json_contents = []
         for event in events:
+            event_tags = self.datastore.get_tags_for_event(event.id)
             self._write_template(
                 "event/" + event.id,
                 "index.html",
                 "event/event/index.html",
                 {
                     "event": event,
-                    "tags": self.datastore.get_tags_for_event(event.id),
+                    "tags": event_tags,
+                },
+            )
+            self._write_template(
+                "event/" + event.id,
+                "edit.html",
+                "event/event/edit.html",
+                {
+                    "event": event,
+                    "tags": event_tags,
+                    "tag_ids": [i.id for i in event_tags],
+                    "all_tags": self.datastore.get_tags(),
                 },
             )
             with open(
