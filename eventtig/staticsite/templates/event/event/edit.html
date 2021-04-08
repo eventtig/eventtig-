@@ -70,6 +70,22 @@
             </td>
         </tr>
         <tr>
+            <th>Cancelled</th>
+            <td>
+                <label>
+                    <input type="checkbox" name="cancelled" {% if event.cancelled %}checked{% endif %}> Cancelled
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th>Deleted</th>
+            <td>
+                <label>
+                    <input type="checkbox" name="deleted" {% if event.deleted %}checked{% endif %}> Deleted
+                </label>
+            </td>
+        </tr>
+        <tr>
             <th>Tags</th>
             <td>
                 <ul>
@@ -101,6 +117,8 @@
             'description': $('form#edit-form textarea[name="description"]').val(),
             'url': $('form#edit-form input[name="url"]').val(),
             'tags': [],
+            'cancelled': $('form#edit-form input[name="cancelled"]').is(':checked'),
+            'deleted': $('form#edit-form input[name="deleted"]').is(':checked'),
             'start':  $('form#edit-form input[name="start-date"]').val() + ' ' + $('form#edit-form select[name="start-time-hour"]').val() + ':' + $('form#edit-form select[name="start-time-minute"]').val(),
             'end':  $('form#edit-form input[name="end-date"]').val() + ' ' + $('form#edit-form select[name="end-time-hour"]').val() + ':' + $('form#edit-form select[name="end-time-minute"]').val()
         };
