@@ -130,7 +130,7 @@
         $('#raw_data_out').val(jsyaml.dump(data,{'sortKeys':true,'forceQuotes':true}));
     }
     $( document ).ready(function() {
-        $('form#edit-form input').change(editFormChanged);
+        $('form#edit-form input, form#edit-form textarea, form#edit-form select').change(editFormChanged);
         editFormChanged();
     });
     function copy() {
