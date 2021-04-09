@@ -13,3 +13,9 @@ class SiteConfig:
 
     def get_tags_extra_fields(self):
         return self.config.get("tags", {}).get("extra_fields", {})
+
+    def get_title(self):
+        return self.config.get("title", "Events")
+
+    def get_description(self):
+        return self.config.get("description", "")

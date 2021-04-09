@@ -35,7 +35,8 @@ class StaticSiteBuilder:
         # Vars
         self._template_variables = {
             "site_config": self.site_config,
-            "site_title": "Events",
+            "site_title": self.site_config.get_title(),
+            "site_description": self.site_config.get_description(),
         }
 
         # Out Dir

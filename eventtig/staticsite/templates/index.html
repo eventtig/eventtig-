@@ -13,6 +13,9 @@
 
 {% block body %}
 
+
+<p>{{ site_description|urlize(100, true) }}</p>
+
 <ul>
     <li><a href="/event/"><button type="button" class="btn btn-primary">Events</button></a></li>
     <li><a href="/tag/"><button type="button" class="btn btn-primary">Tags</button></a></li>
