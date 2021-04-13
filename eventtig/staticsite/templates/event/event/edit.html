@@ -123,6 +123,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js" integrity="sha512-dYHhQSvQ3Lepc2xDidh80aADfrIAaVTs52W5JSFlE47SJgcwD+YY+iY0XmXD9UX3k0YOPvoyugS/ieGjpu5M/Q==" crossorigin="anonymous"></script>
 <script>
     function editFormChanged() {
+        var start = $('form#edit-form input[name="start-date"]').val() + ' ' + $('form#edit-form select[name="start-time-hour"]').val() + ':' + $('form#edit-form select[name="start-time-minute"]').val();
+        var end = $('form#edit-form input[name="end-date"]').val() + ' ' + $('form#edit-form select[name="end-time-hour"]').val() + ':' + $('form#edit-form select[name="end-time-minute"]').val();
         var data = {
             'title': $('form#edit-form input[name="title"]').val(),
             'description': $('form#edit-form textarea[name="description"]').val(),
@@ -130,9 +132,11 @@
             'tags': [],
             'cancelled': $('form#edit-form input[name="cancelled"]').is(':checked'),
             'deleted': $('form#edit-form input[name="deleted"]').is(':checked'),
-            'start':  $('form#edit-form input[name="start-date"]').val() + ' ' + $('form#edit-form select[name="start-time-hour"]').val() + ':' + $('form#edit-form select[name="start-time-minute"]').val(),
-            'end':  $('form#edit-form input[name="end-date"]').val() + ' ' + $('form#edit-form select[name="end-time-hour"]').val() + ':' + $('form#edit-form select[name="end-time-minute"]').val()
+            'start':  start,
         };
+        if (start != end) {
+            data['end'] = end;
+        }
         {% for tag in all_tags %}
         if ($('form#edit-form input[name="tag-{{ tag.id }}"]').is(':checked')) { data['tags'].push('{{ tag.id }}'); }
         {% endfor %}
